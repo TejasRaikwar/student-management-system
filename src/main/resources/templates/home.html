@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #0D6EFD;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .button {
+            background-color: #0D6EFD;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 10px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #08367b;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Student Management System</h1>
+    </div>
+
+    <div class="container">
+        <a th:href="@{/login}" class="button">Login</a>
+        <a th:href="@{/signup}" class="button">Sign Up</a>
+    </div>
+</body>
+</html>

@@ -72,10 +72,10 @@ public class Student {
     
     
     
-    // default Constructor
-    public Student() {
+    // // default Constructor
+    // public Student() {
     	
-    }
+    // }
     // Parameterized constructor
     public Student(int studentID, String firstName, String lastName, Date dob, String gender, String email,
 			String phone) {

@@ -1,6 +1,8 @@
 package com.example.studentmanagentsystem.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Instructor")
@@ -19,7 +21,18 @@ public class Instructor {
     @Column(name = "Email", length = 100)
     private String email;
     
-    
+	@Size(min = 8, message = "Password must be at least 8 characters long")
+    @Pattern(
+        regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&!])[A-Za-z\\d@#$%^&!]{8,}$",
+        message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%^&!)"
+    )
+    private String password;
+
+	private String role;
+
+	public Instructor() {
+		// TODO Auto-generated constructor stub
+	}
     public Instructor(int instructorID, String firstName, String lastName, String email) {
 		super();
 		this.instructorID = instructorID;
@@ -59,6 +72,22 @@ public class Instructor {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
       
 }

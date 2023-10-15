@@ -8,11 +8,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 import com.example.studentmanagentsystem.entity.Instructor;
 import com.example.studentmanagentsystem.entity.Student;
 import com.example.studentmanagentsystem.entity.repository.InstructorRepository;
 import com.example.studentmanagentsystem.entity.repository.StudentRepository;
+import com.example.studentmanagentsystem.model.LoginModel;
+
 import jakarta.validation.Valid;
 
 @Controller
@@ -56,22 +58,37 @@ public class projectControllers {
     }
     
     @GetMapping("/login")
-    public String loginPage(Student student) {
+    public String loginPage(Model model) {
+    	model.addAttribute("loginModel", new LoginModel());
         return "login";
     }
     
 	// handler for login process
-	@PostMapping("/login")
-	public String login(@RequestParam("email") String email, @RequestParam("password") String password) {
-		Student dbUser = studentRepository.findByEmail(email);
-		if (dbUser != null && password.equals(dbUser.getPassword())) {
-			if ("ADMIN".equals(dbUser.getRole())) {
-				return "adminpage";
-			} else {
+    @PostMapping("/login")
+	public String login(@ModelAttribute("loginModel") LoginModel loginModel) {
+		if ("student,".equals(loginModel.getRole())) {
+			Student dbUser = studentRepository.findByEmail(loginModel.getEmail());
+			if (dbUser != null && loginModel.getPassword().equals(dbUser.getPassword())) {
 				return "userpage";
+
+			} else {
+				return "error";
 			}
-		} else {
-			return "error";
 		}
+		else {
+			Instructor dbUser = instructorRepository.findByEmail(loginModel.getEmail());
+			if (dbUser != null && loginModel.getPassword().equals(dbUser.getPassword())) {
+				if ("ADMIN".equals(dbUser.getRole())) {
+					return "adminpage";
+				} else {
+					return "instructorpage";
+				}
+			} else {
+				return "error";
+			}
+	
+		}
+		}
+        
 	}
-}
+

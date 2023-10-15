@@ -8,21 +8,25 @@
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<title>Signup</title>
 	<style>
-		.container{
+		.container {
 			border: 2px solid black;
 			width: 600px;
 			border-radius: 1rem;
 			padding: 1rem;
 		}
-		input{
+
+		input {
 			width: 60%;
 		}
-		.submit-btn>button, li{
+
+		.submit-btn>button,
+		li {
 			width: 150px;
 			font-size: 1.2rem;
 			font-weight: 700;
 		}
-		label{
+
+		label {
 			font-size: 1.2rem;
 		}
 	</style>
@@ -67,18 +71,28 @@
 	<div class="container my-3 ">
 		<h2 class="text-left my-4 text-center">Login</h2>
 		<!---              -->
-		<form th:action="@{/login}" method="post" th:object="${student}">
+		<form th:action="@{/login}" method="post" th:object="${loginModel}">
+			<div class="mb-3">
+				<label for="role" class="form-label">Role</label>
+				<select class="form-select" id="role" style="width: 100%" th:field="*{role}">
+					<option value="" selected>Select your role</option>
+					<option value="student">Student</option>
+					<option value="instructor">Instructor</option>
+					<option value="admin">Admin</option>
+				</select>
+				<span id="genderError" class="text-danger" th:errors="*{role}"></span>
+			</div>
 			<div class="mb-3">
 				<label for="exampleInputEmail1" class="form-label">Email</label>
-				<input type="email" class="form-control" id="email"  name="email" th:field="*{email}">
-				  <span id="emailError" class="text-danger"></span>
+				<input type="email" class="form-control" id="email" name="email" th:field="*{email}">
+				<span id="emailError" class="text-danger"></span>
 			</div>
 			<div class="mb-3">
 				<label for="exampleInputPassword1" class="form-label">Password</label>
-				<input type="password" class="form-control" id="password"  name="password" th:field="*{password}">
-				  <span id="passwordError" class="text-danger"></span>
+				<input type="password" class="form-control" id="password" name="password" th:field="*{password}">
+				<span id="passwordError" class="text-danger"></span>
 			</div>
-
+			<input type="hidden" name="role" th:value="${loginModel.role}" />
 			<button type="submit" class="btn btn-primary">Login</button>
 		</form>
 		<!---              -->

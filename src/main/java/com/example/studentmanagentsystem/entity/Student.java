@@ -67,15 +67,7 @@ public class Student {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
-    
-    
-    
-    // // default Constructor
-    // public Student() {
-    	
-    // }
+ 
     // Parameterized constructor
     public Student(int studentID, String firstName, String lastName, Date dob, String gender, String email,
 			String phone) {
@@ -89,6 +81,9 @@ public class Student {
 		this.phone = phone;
 	}
 
+	public Student() {
+		// TODO Auto-generated constructor stub
+	}
 	// Getters and Setters
 	public int getStudentID() {
 		return studentID;
@@ -144,9 +139,5 @@ public class Student {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-    
-    
-    
-    
+	}  
 }

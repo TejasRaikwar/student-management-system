@@ -1,8 +1,18 @@
 package com.example.studentmanagentsystem.model;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Email;
+
 public class LoginModel {
+	
+    @NotEmpty(message = "Email is required")
+    @Email(message = "Invalid email address")
 	private String email;
+	
+    @NotEmpty(message = "Password is required")
 	private String password;
+    
+	@NotEmpty(message = "Role is required")
 	private String role;
 	
 	public String getRole() {

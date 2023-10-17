@@ -77,7 +77,11 @@ public class projectControllers {
 
 	// handler for login process
 	@PostMapping("/login")
-	public String login(@ModelAttribute("loginModel") LoginModel loginModel) {
+	public String login(@Valid @ModelAttribute("loginModel") LoginModel loginModel, BindingResult bindingResult) {
+	    if (bindingResult.hasErrors()) {
+	        return "login"; // Return to the login page with validation errors
+	    }
+	    
 		if ("student,".equals(loginModel.getRole())) {
 			Student dbUser = studentRepository.findByEmail(loginModel.getEmail());
 			if (dbUser != null && loginModel.getPassword().equals(dbUser.getPassword())) {
@@ -99,7 +103,6 @@ public class projectControllers {
 			}
 		}
 	}
-
 	@GetMapping("/addcourse")
 	public String addCourse(Model model) {
 		model.addAttribute("course", new Course());

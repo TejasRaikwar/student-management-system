@@ -32,11 +32,18 @@
 	</style>
 	<script>
 		function validateLogin() {
+			const role = document.getElementById("role").value;
 			const email = document.getElementById("email").value;
 			const password = document.getElementById("password").value;
-
 			let isValid = true;
 
+			// Password validation
+			if (role.trim() === "") {
+				document.getElementById("roleError").innerHTML = "Please select your role is required.";
+				isValid = false;
+			} else {
+				document.getElementById("roleError").innerHTML = "";
+			}
 			// Email validation using regex pattern
 			const emailRegex = /^\S+@\S+\.\S+$/;
 			if (!emailRegex.test(email)) {
@@ -71,7 +78,7 @@
 	<div class="container my-3 ">
 		<h2 class="text-left my-4 text-center">Login</h2>
 		<!---              -->
-		<form th:action="@{/login}" method="post" th:object="${loginModel}">
+		<form th:action="@{/login}" method="post" th:object="${loginModel}" onsubmit="return validateForm()">
 			<div class="mb-3">
 				<label for="role" class="form-label">Role</label>
 				<select class="form-select" id="role" style="width: 100%" th:field="*{role}">
@@ -80,20 +87,21 @@
 					<option value="instructor">Instructor</option>
 					<option value="admin">Admin</option>
 				</select>
-				<span id="genderError" class="text-danger" th:errors="*{role}"></span>
+				<span th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger" id="roleError"></span>
 			</div>
 			<div class="mb-3">
 				<label for="exampleInputEmail1" class="form-label">Email</label>
 				<input type="email" class="form-control" id="email" name="email" th:field="*{email}">
-				<span id="emailError" class="text-danger"></span>
+				<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"
+					id="emailError"></span>
 			</div>
 			<div class="mb-3">
 				<label for="exampleInputPassword1" class="form-label">Password</label>
 				<input type="password" class="form-control" id="password" name="password" th:field="*{password}">
-				<span id="passwordError" class="text-danger"></span>
+				<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
 			</div>
 			<input type="hidden" name="role" th:value="${loginModel.role}" />
-			<p class="text-center"><button type="submit" class="btn btn-primary">Login</button></p>
+			<p class="text-center"><button type="submit" class="btn btn-primary" id="passwordError">Login</button></p>
 		</form>
 		<!---              -->
 	</div>

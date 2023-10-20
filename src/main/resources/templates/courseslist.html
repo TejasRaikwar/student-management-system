@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .logout-btn {
+            margin-right: 1rem;
+            font-weight: bolder;
+            color: white;
+            cursor: pointer;
+        }
+
+        .bt1 {
+            width: 100px;
+            background: none;
+            border: none;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        table {
+            margin-top: 5rem;
+        }
+
+        th,
+        td {
+            width: 150px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active text-white fw-bolder" aria-current="page" href="/">Home</a>
+                </li>
+            </ul>
+        </div>
+        <div class="d-flex flex-row-reverse bd-highlight">
+            <div class="logout-btn">Logout</div>
+            <a href="/addcourse">
+                <div class="logout-btn bt1">Add Course</div>
+            </a>
+            <a href="/allcourses">
+                <div class="logout-btn bt1">List Courses</div>
+            </a>
+            <a href="/instructor">
+                <div class="logout-btn bt1" style="width: 120px;"Add Instructor</div>
+            </a>
+        </div>
+        </div>
+    </nav>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col" class="bg-primary">Course Id</th>
+                <th scope="col" class="bg-primary">Course Title</th>
+                <th scope="col" class="bg-primary">Course Credits</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="c :${course}">
+                <td th:text="${c.courseID}"></td>
+                <td th:text="${c.courseTitle}"></td>
+                <td th:text="${c.credits}"></td>
+            </tr>
+        </tbody>
+        <label for="selectcourse">select course: </label>
+        <select id="courseSelection" name="" style="width: 100%" th:field="*{course}">
+            <option th:each="i :${course}" th:value="${i}" th:text="${i.courseTitle}"></option>
+    </select>
+    </table>
+</body>
+
+</html>

@@ -26,10 +26,13 @@
 		td {
 			border: 1px solid black;
 		}
-		table{
+
+		table {
 			margin-left: 5rem;
 		}
-		th,td{
+
+		th,
+		td {
 			width: 150px;
 			text-align: center;
 		}
@@ -45,10 +48,17 @@
 			</ul>
 		</div>
 		<div class="d-flex flex-row-reverse bd-highlight">
-			<div class="logout-btn">Logout</div>
-			<!--    <a href="/addcourse"><div class="logout-btn bt1">Add Course</div></a>-->
+			<form action="/logout" method="get">
+				<div class="logout-btn">Logout</div>
+			</form>
 			<form action="/addcourse" method="get">
 				<button type="submit" class="logout-btn bt1">Add Course</button>
+			</form>
+			<form action="/allcourses" method="get">
+				<button type="submit" class="logout-btn bt1">List Courses</button>
+			</form>
+			<form action="/instructor" method="get">
+				<button type="submit" class="logout-btn bt1" style="width: 120px;">Add Instructor</button>
 			</form>
 		</div>
 	</nav>
@@ -57,19 +67,6 @@
 		</nav>
 		<div id="main">
 			<h1>Welcome to Admin page</h1>
-			<h3>current available courses</h3>
-			<table border="2px">
-				<tr>
-					<th>id</th>
-					<th>course name</th>
-					<th>credits</th>
-				</tr>
-				<tr th:each="course : ${courses}">
-					<td th:text="${course.courseID}"></td>
-					<td th:text="${course.courseTitle}"></td>
-					<td th:text="${course.credits}"></td>
-				</tr>
-			</table>
 		</div>
 	</div>
 </body>

@@ -15,7 +15,8 @@
             padding: 1rem;
         }
 
-        input {
+        input,
+        select {
             width: 60%;
         }
 
@@ -29,16 +30,38 @@
         label {
             font-size: 1.2rem;
         }
+
+        select {
+            background-color: white;
+            border: 1px solid rgb(91, 90, 90);
+            border-radius: 2px;
+        }
+
+        .logout-btn {
+            margin-right: 1rem;
+            font-weight: bolder;
+            color: white;
+            cursor: pointer;
+        }
+
+        .bt1 {
+            width: 100px;
+            background: none;
+            border: none;
+        }
     </style>
     <script>
         function validateForm() {
             const firstname = document.getElementById("firstName").value;
             const lastname = document.getElementById("lastName").value;
             const email = document.getElementById("email").value;
+            const course = document.getElementById("courseSelection").value;
             const password = document.getElementById("password").value;
             const passwordError = document.getElementById("passwordError");
             const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&!])[A-Za-z\d@#$%^&!]{8,}$/;
             let isValid = true;
+
+            // check course
 
 
             // check First Name :
@@ -87,10 +110,24 @@
                 </li>
             </ul>
         </div>
+        <div class="d-flex flex-row-reverse bd-highlight">
+            <div class="logout-btn">Logout</div>
+            <a href="/addcourse">
+                <div class="logout-btn bt1">Add Course</div>
+            </a>
+            <a href="/allcourses">
+                <div class="logout-btn bt1">List Courses</div>
+            </a>
+            <a href="/instructor">
+                <div class="logout-btn bt1" style="width: 120px;">Add Instructor</div>
+            </a>
+        </div>
+        </div>
     </nav>
     <div class="container my-3 ">
         <h2 class="text-left my-4 text-center">Instructor Registration Form</h2>
-        <form th:action="@{/instructorprocess}" method="post" th:object="${instructor}" onsubmit="return validateForm()">
+        <form th:action="@{/instructorprocess}" method="post" th:object="${instructor}"
+            onsubmit="return validateForm()">
             <!-- Add your input fields here -->
             <div class="row">
                 <div class="col">
@@ -106,6 +143,15 @@
                         <input type="text" id="lastName" th:field="*{lastName}" style="width: 100%" required><br>
                         <span id="lastNameError" class="text-danger" th:errors="*{lastName}"></span>
                     </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="courseSelection">Select Course:</label>
+                    <select id="courseSelection" name="course.courseID" style="width: 100%" th:field="*{course}">
+                        <option th:each="i : ${course}" th:value="${i.courseID}" th:text="${i.courseTitle}"></option>
+                    </select>
+                     <span id="courseError" class="text-danger" th:if="${#fields.hasErrors('course')}">Please select a course.</span>
                 </div>
             </div>
             <div class="row">
@@ -136,4 +182,5 @@
             integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
             crossorigin="anonymous"></script>
 </body>
+
 </html>

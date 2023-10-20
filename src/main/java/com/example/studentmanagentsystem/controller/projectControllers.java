@@ -1,7 +1,6 @@
 package com.example.studentmanagentsystem.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -10,18 +9,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.example.studentmanagentsystem.dto.CourseDAO;
+import org.springframework.web.servlet.ModelAndView;
 import com.example.studentmanagentsystem.entity.Course;
-//import org.springframework.web.bind.annotation.RequestParam;
 import com.example.studentmanagentsystem.entity.Instructor;
 import com.example.studentmanagentsystem.entity.Student;
 import com.example.studentmanagentsystem.entity.repository.CourseRepository;
 import com.example.studentmanagentsystem.entity.repository.InstructorRepository;
 import com.example.studentmanagentsystem.entity.repository.StudentRepository;
 import com.example.studentmanagentsystem.model.LoginModel;
-
+import com.example.studentmanagentsystem.service.CourseService;
 import jakarta.validation.Valid;
+
 
 @Controller
 public class projectControllers {
@@ -36,7 +34,7 @@ public class projectControllers {
 	private CourseRepository courseRepository;
 	
     @Autowired
-    private CourseDAO courseDAO;
+    CourseService courseService;
 
 	// Route for home page
 	@GetMapping("/")
@@ -103,6 +101,8 @@ public class projectControllers {
 			}
 		}
 	}
+	
+	
 	@GetMapping("/addcourse")
 	public String addCourse(Model model) {
 		model.addAttribute("course", new Course());
@@ -112,6 +112,18 @@ public class projectControllers {
 	public String addCourseProcess(Course course) {
 		courseRepository.save(course);
 		return "adminpage";
+	}
+	
+	
+	@GetMapping("/allcourses")
+	public ModelAndView getAllBook() {
+		List<Course> list = courseService.getAllCourse();
+		return new ModelAndView("courseslist", "course", list);
+	}
+	
+	@GetMapping("/logout")
+	public String handleLogout() {
+		return "home";
 	}
 
 }

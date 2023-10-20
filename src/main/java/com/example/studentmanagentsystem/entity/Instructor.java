@@ -17,8 +17,9 @@ public class Instructor {
     
     @Column(name = "LastName", length = 50)
     private String lastName;
-    
-    @Column(name = "Email", length = 100)
+        
+
+	@Column(name = "Email", length = 100)
     private String email;
     
 	@Size(min = 8, message = "Password must be at least 8 characters long")
@@ -29,16 +30,32 @@ public class Instructor {
     private String password;
 
 	private String role;
+	
+	private int course;
+
+	public int getCourse() {
+		return course;
+	}
+
+	public void setCourse(int course) {
+		this.course = course;
+	}
 
 	public Instructor() {
 		// TODO Auto-generated constructor stub
 	}
-    public Instructor(int instructorID, String firstName, String lastName, String email) {
+
+	public Instructor(int instructorID, String firstName, String lastName, String email,
+			@Size(min = 8, message = "Password must be at least 8 characters long") @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&!])[A-Za-z\\d@#$%^&!]{8,}$", message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%^&!)") String password,
+			String role, int course) {
 		super();
 		this.instructorID = instructorID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.course = course;
 	}
 
 	// Getters and setters

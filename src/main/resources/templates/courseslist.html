@@ -76,10 +76,6 @@
                 <td th:text="${c.credits}"></td>
             </tr>
         </tbody>
-        <label for="selectcourse">select course: </label>
-        <select id="courseSelection" name="" style="width: 100%" th:field="*{course}">
-            <option th:each="i :${course}" th:value="${i}" th:text="${i.courseTitle}"></option>
-    </select>
     </table>
 </body>
 

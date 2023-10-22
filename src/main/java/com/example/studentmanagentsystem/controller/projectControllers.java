@@ -118,6 +118,7 @@ public class projectControllers {
 		model.addAttribute("course", new Course());
 		return "addcourse";
 	}
+	
 	@PostMapping("/addcourseprocess")
 	public String addCourseProcess(Course course) {
 		courseRepository.save(course);
@@ -150,7 +151,7 @@ public class projectControllers {
     	  return "enrollcourse";
       }
       try {
-    	  enrollmentRepository.save(enrollment);
+    	  instructorService.save(enrollment);
     	  return "redirect:/";
       }
       catch(DataIntegrityViolationException e) {

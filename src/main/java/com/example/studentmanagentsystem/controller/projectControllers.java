@@ -20,6 +20,8 @@ import com.example.studentmanagentsystem.entity.repository.InstructorRepository;
 import com.example.studentmanagentsystem.entity.repository.StudentRepository;
 import com.example.studentmanagentsystem.model.LoginModel;
 import com.example.studentmanagentsystem.service.CourseService;
+import com.example.studentmanagentsystem.service.InstructorService;
+
 import jakarta.validation.Valid;
 
 
@@ -40,6 +42,9 @@ public class projectControllers {
 	
     @Autowired
     CourseService courseService;
+    
+    @Autowired
+    InstructorService instructorService;
 
 	// Route for home page
 	@GetMapping("/")
@@ -126,40 +131,23 @@ public class projectControllers {
 	}
 	
 	
-//    @GetMapping("/instructor")
-//    public ModelAndView instructorSignup(Model model) {
-//		List<Course> list = courseService.getAllCourse();
-//		model.addAttribute("instructor", new Instructor());
-//		return new ModelAndView("instructor-signup", "course", list);
-//    }
-	
 	@GetMapping("/enrollcourse")
 	public ModelAndView enrollCourse(Model model) {
 		List<Course> list = courseService.getAllCourse();
-		return new ModelAndView("enrollcourse", "course", list);
+		List<Instructor> instructor = instructorService.getAllInstructor();
+		model.addAttribute("course",list);
+		model.addAttribute("instructor",instructor);
+//		return new ModelAndView("enrollcourse", "instructor", instructor);
+		return new ModelAndView("enrollcourse");
 	}
 	
-//    @PostMapping("/instructorprocess")
-//    public String instructorSignupProcess(@Valid @ModelAttribute("instructor") Instructor instructor, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            // Validation failed, return to the sign-up form with error messages
-//            return "instructor-signup";
-//        }
-//        try {
-//            instructor.setRole("INSTRUCTOR");
-//            instructorRepository.save(instructor);
-//            return "redirect:/"; // Redirect to the home page after successful signup
-//        } catch (DataIntegrityViolationException e) {
-//            bindingResult.rejectValue("email", "error.student", "Email already exists");
-//            return "instructor-signup";
-//        }
-//    }
 	
 	@PostMapping("/processenrollcourse")
-	public String processEnrollCourse(@Valid @ModelAttribute("enrollment") Enrollment enrollment,BindingResult bindingResult) {
+	public String processEnrollCourse(@Valid @ModelAttribute("enrollment") Enrollment enrollment,
+			BindingResult bindingResult) {
       if (bindingResult.hasErrors()) {
       // Validation failed, return to the sign-up form with error messages
-      return "enrollcourse";
+    	  return "enrollcourse";
       }
       try {
     	  enrollmentRepository.save(enrollment);
@@ -167,7 +155,7 @@ public class projectControllers {
       }
       catch(DataIntegrityViolationException e) {
     	  bindingResult.rejectValue("email", "error.student", "Email already exists");
-        return "enrollcourse";
+    	  return "enrollcourse";
       }
       
 	}

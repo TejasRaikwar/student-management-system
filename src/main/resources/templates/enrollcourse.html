@@ -1,122 +1,129 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Insert title here</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"integrity="sha384-EVSTQN3/" crossorigin="anonymous">
-    <style>
-        .logout-btn {
-            margin-right: 1rem;
-            font-weight: bolder;
-            color: white;
-            cursor: pointer;
-        }
-
-        .btn1 {
-            width: 100px;
-            background: none;
-            border: none;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid black;
-        }
-
-        table {
-            margin-left: 5rem;
-        }
-
-        th,
-        td {
-            width: 150px;
-            text-align: center;
-        }
-        .enroll-form {
-            border: 2px solid black;
-            width: 600px;
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-left: 32%;
-        }
-        input,
-        select {
-            width: 100%;
-            padding: 7px;
-        }
-        .submit-btn>button
-        {
-            width: 150px;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-        select {
-            background-color: white;
-            border: 1px solid rgb(91, 90, 90);
-            border-radius: 2px;
-            color:black;
-        }
-        option{
-			color:black;
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		integrity="sha384-EVSTQN3/" crossorigin="anonymous">
+	<style>
+		.logout-btn {
+			margin-right: 1rem;
+			font-weight: bolder;
+			color: white;
+			cursor: pointer;
 		}
-        .bt1 {
-            width: 100px;
-            background: none;
-            border: none;
-        }
-        label{
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-        }
-    </style>
+
+		.btn1 {
+			width: 100px;
+			background: none;
+			border: none;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid black;
+		}
+
+		table {
+			margin-left: 5rem;
+		}
+
+		th,
+		td {
+			width: 150px;
+			text-align: center;
+		}
+
+		.enroll-form {
+			border: 2px solid black;
+			width: 600px;
+			border-radius: 1rem;
+			padding: 1rem;
+			margin-left: 32%;
+		}
+
+		input,
+		select {
+			width: 100%;
+			padding: 7px;
+		}
+
+		.submit-btn>button {
+			width: 150px;
+			font-size: 1.2rem;
+			font-weight: 700;
+		}
+
+		select {
+			background-color: white;
+			border: 1px solid rgb(91, 90, 90);
+			border-radius: 2px;
+			color: black;
+		}
+
+		option {
+			color: black;
+		}
+
+		.bt1 {
+			width: 100px;
+			background: none;
+			border: none;
+		}
+
+		label {
+			font-size: 1.2rem;
+			font-weight: 600;
+			margin-bottom: 0.8rem;
+		}
+	</style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-        <div class="container-fluid">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active text-white fw-bold" aria-current="page" href="/">Home</a>
-                </li>
-            </ul>
-        </div>
-        <div class="d-flex flex-row-reverse bd-highlight">
-            <form action="/logout" method="get">
-                <div class="logout-btn">Logout</div>
-            </form>
-            <form action="/enrollcourse" method="get">
-                <button type="submit" class="logout-btn bt1" style="width: 110px;">Enroll Course</button>
-            </form>
-            <form action="/enrollments" method="get">
-                <button type="submit" class="logout-btn bt1">Enrollments</button>
-            </form>
-            <form action="/feedbacks" method="get">
-                <button type="submit" class="logout-btn bt1">Feedbacks</button>
-            </form>
-        </div>
-    </nav>
-    <div class="enroll-form my-3">
-        <h1 class="text-center fw-bold">Enrollment Form</h1>
-        <form>
-            <!-- enroll date -->
-            <label for="enrolldate">Enrollment Date : </label><br>
-            <input type="date" name="enrolldate" id="enrolldate"/>
-            <!-- Course -->
-            <label for="course">Course : </label>
-            <select name="course" id="course">
-                <option th:each="i : ${course}" th:value="${i.courseID}" th:text="${i.courseTitle}"></option>
-            </select>
-            <!-- Instructor -->
-            <label for="instructor">Instructor : </label>
-            <select name="instructor" id="instructor">
-                <option th:each="i : ${instructor}" th:value="${i.instructorID}" th:text="${i.firstName}+' '+${i.lastName}" th:unless="${i.role == 'ADMIN'}" ></option>
-            </select>
-            <!--Submit Button -->
-            <p class="text-center submit-btn mt-3"><button type="submit" class="btn btn-primary">Sign up</button></p>
-        </form>
-    </div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-primary ">
+		<div class="container-fluid">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item"><a class="nav-link active text-white fw-bold" aria-current="page" href="/">Home</a>
+				</li>
+			</ul>
+		</div>
+		<div class="d-flex flex-row-reverse bd-highlight">
+			<form action="/logout" method="get">
+				<div class="logout-btn">Logout</div>
+			</form>
+			<form action="/enrollcourse" method="get">
+				<button type="submit" class="logout-btn bt1" style="width: 110px;">Enroll Course</button>
+			</form>
+			<form action="/enrollments" method="get">
+				<button type="submit" class="logout-btn bt1">Enrollments</button>
+			</form>
+			<form action="/feedbacks" method="get">
+				<button type="submit" class="logout-btn bt1">Feedbacks</button>
+			</form>
+		</div>
+	</nav>
+	<div class="enroll-form my-3">
+		<h1 class="text-center fw-bold">Enrollment Form</h1>
+		<form th:action="@{/processenrollcourse}" method="post" th:object="${enrollment}">
+			<!-- enroll date -->
+			<label for="enrolldate">Enrollment Date : </label><br>
+			<input type="date" name="enrolldate" id="enrolldate" th:field="*{enrollmentDate}" />
+			<!-- Course -->
+			<label for="course">Course : </label>
+			<select name="course" id="course" th:feild="*{course}">
+				<option th:each="i : ${course}" th:value="${i.courseID}" th:text="${i.courseTitle}"></option>
+			</select>
+			<!-- Instructor -->
+			<label for="instructor">Instructor : </label>
+			<select name="instructor" id="instructor" th:feild="*{instructor}">
+				<option th:each="i : ${instructor}" th:value="${i.instructorID}"
+					th:text="${i.firstName}+' '+${i.lastName}" th:unless="${i.role == 'ADMIN'}"></option>
+			</select>
+			<!--Submit Button -->
+			<p class="text-center submit-btn mt-3"><button type="submit" class="btn btn-primary">Sign up</button></p>
+		</form>
+	</div>
 </body>
 
 </html>

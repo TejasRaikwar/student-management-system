@@ -1,6 +1,8 @@
 package com.example.studentmanagentsystem.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -20,13 +22,15 @@ import com.example.studentmanagentsystem.entity.repository.InstructorRepository;
 import com.example.studentmanagentsystem.entity.repository.StudentRepository;
 import com.example.studentmanagentsystem.model.LoginModel;
 import com.example.studentmanagentsystem.service.CourseService;
-import com.example.studentmanagentsystem.service.InstructorService;
+import com.example.studentmanagentsystem.service.EnrollmetService;
 
 import jakarta.validation.Valid;
 
 
 @Controller
 public class projectControllers {
+	
+	int id = -1;
 
 	@Autowired
 	private StudentRepository studentRepository;
@@ -44,7 +48,7 @@ public class projectControllers {
     CourseService courseService;
     
     @Autowired
-    InstructorService instructorService;
+    EnrollmetService enrollService;
 
 	// Route for home page
 	@GetMapping("/")
@@ -92,6 +96,7 @@ public class projectControllers {
 	    
 		if ("student,".equals(loginModel.getRole())) {
 			Student dbUser = studentRepository.findByEmail(loginModel.getEmail());
+			id = dbUser.getStudentID();
 			if (dbUser != null && loginModel.getPassword().equals(dbUser.getPassword())) {
 				return "userpage";
 
@@ -135,30 +140,40 @@ public class projectControllers {
 	@GetMapping("/enrollcourse")
 	public ModelAndView enrollCourse(Model model) {
 		List<Course> list = courseService.getAllCourse();
-		List<Instructor> instructor = instructorService.getAllInstructor();
+		List<Instructor> instructor = instructorRepository.findAll();
 		model.addAttribute("course",list);
 		model.addAttribute("instructor",instructor);
-//		return new ModelAndView("enrollcourse", "instructor", instructor);
+		model.addAttribute("enrollment", new Enrollment());
 		return new ModelAndView("enrollcourse");
 	}
 	
 	
 	@PostMapping("/processenrollcourse")
-	public String processEnrollCourse(@Valid @ModelAttribute("enrollment") Enrollment enrollment,
+	public String processEnrollCourse(@ModelAttribute("enrollment") Enrollment enrollment,
 			BindingResult bindingResult) {
       if (bindingResult.hasErrors()) {
       // Validation failed, return to the sign-up form with error messages
     	  return "enrollcourse";
       }
       try {
-    	  instructorService.save(enrollment);
-    	  return "redirect:/";
+    	// Retrieve the Student entity using the id
+          Optional<Student> studentOptional = studentRepository.findById(id);
+          if (studentOptional.isPresent()) {
+              Student student = studentOptional.get();
+              enrollment.setStudent(student);
+              enrollService.save(enrollment);
+//              enrollmentRepository.save(enrollment);
+              return "redirect:/userpage";
+          } else {
+              // Handle the case where the student with the given id is not found
+              // You might want to display an error message or redirect accordingly
+              return "enrollcourse"; // or some other error handling logic
+          }
       }
-      catch(DataIntegrityViolationException e) {
-    	  bindingResult.rejectValue("email", "error.student", "Email already exists");
-    	  return "enrollcourse";
-      }
-      
+      catch (DataIntegrityViolationException e) {
+    	    bindingResult.rejectValue("studentID", "error.enrollment", "Enrollment failed due to data integrity violation.");
+    	    return "enrollcourse";
+    	}
 	}
 	
 	@GetMapping("/enrollments")

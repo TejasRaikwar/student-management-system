@@ -6,4 +6,6 @@ import java.util.List;
 public interface CourseRepository extends JpaRepository <Course, Integer> {
     // You can add custom query methods here if needed
 	List<Course> findAll();
+	
+	Course findByCourseTitle(String courseTitle);
 }

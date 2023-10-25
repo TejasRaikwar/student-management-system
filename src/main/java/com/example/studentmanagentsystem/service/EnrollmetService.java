@@ -25,5 +25,4 @@ public class EnrollmetService {
 	public void deleteById(int id) {
 		enrollrepo.deleteById(id);
 	}
-
 }

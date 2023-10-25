@@ -67,7 +67,5 @@ public class Enrollment {
 
 	public void setCourse(Course course) {
 		this.course = course;
-	}
-
-    
+	} 
 }

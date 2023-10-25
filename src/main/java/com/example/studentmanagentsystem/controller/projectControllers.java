@@ -124,11 +124,36 @@ public class projectControllers {
 		return "addcourse";
 	}
 	
+//	@PostMapping("/addcourseprocess")
+//	public String addCourseProcess(Course course) {
+//		courseRepository.save(course);
+//		return "adminpage";
+//	}
+//	
 	@PostMapping("/addcourseprocess")
-	public String addCourseProcess(Course course) {
-		courseRepository.save(course);
-		return "adminpage";
+	public String addCourseProcess(@Valid @ModelAttribute("course") Course course, BindingResult bindingResult) {
+	    // Check if a course with the same title already exists
+	    Course existingCourse = courseRepository.findByCourseTitle(course.getCourseTitle());
+
+	    if (existingCourse != null) {
+	        // A course with the same title already exists, add a custom error to the BindingResult
+	        bindingResult.rejectValue("courseTitle", "duplicate", "Course with the same title already exists.");
+	        return "addcourse"; // Return to the addcourse page with the error message
+	    }
+
+	    // If no duplicate course title is found, proceed with saving the course
+	    if (!bindingResult.hasErrors()) {
+	        courseService.save(course);
+	        return "adminpage"; // Redirect to the success page
+	    }
+
+	    return "addcourse"; // Return to the addcourse page if there are other validation errors
 	}
+
+
+	
+	
+	
 	
 	@GetMapping("/allcourses")
 	public ModelAndView getAllBook() {
@@ -176,6 +201,21 @@ public class projectControllers {
     	}
 	}
 	
+//	@PostMapping("/processenrollcourse")
+//	public String processEnrollCourse(@ModelAttribute("enrollment") Enrollment enrollment, BindingResult bindingResult) {
+//	    if (bindingResult.hasErrors()) {
+//	        return "enrollcourse"; // Validation failed, return to the enrollcourse form with error messages
+//	    }
+//	    try {
+//	        enrollService.save(enrollment);
+//	        return "redirect:/userpage"; // Redirect to a success page after enrollment
+//	    } catch (DataIntegrityViolationException e) {
+//	        bindingResult.rejectValue("student", "error.enrollment", "Enrollment failed due to data integrity violation.");
+//	        return "enrollcourse";
+//	    }
+//	}
+
+	
 	@GetMapping("/enrollments")
 	public String enrollments() {
 		return "enrollments";
@@ -190,5 +230,4 @@ public class projectControllers {
 	public String handleLogout() {
 		return "home";
 	}
-
 }

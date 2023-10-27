@@ -53,4 +53,9 @@ public class Course {
 		public void setCourseTitle(String courseTitle) {
 			this.courseTitle = courseTitle;
 		}
+		@Override
+		public String toString() {
+			return "Course [courseID=" + courseID + ", credits=" + credits + ", courseTitle=" + courseTitle + "]";
+		}
+		
 }

@@ -79,6 +79,7 @@
 			margin-bottom: 0.8rem;
 		}
 	</style>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -124,6 +125,31 @@
 			<!--Submit Button 
 			<p class="text-center submit-btn mt-3"><button type="submit" class="btn btn-primary">Sign up</button></p>
 		</form>-->
+		<!--
+		<form th:action="@{/processenrollcourse}" method="post" th:object="${enrollment}">
+			<!-- Enrollment Date 
+			<label for="enrolldate">Enrollment Date:</label><br>
+			<input type="date" name="enrollmentDate" id="enrolldate" th:field="*{enrollmentDate}" />
+
+			<!-- Course 
+			<label for="course">Course:</label>
+			<select name="course" id="course" th:field="*{course}">
+				<option th:each="c : ${course}" th:value="${c.courseID}" th:text="${c.courseTitle}"></option>
+			</select>
+
+			<!-- Instructor 
+			<label for="instructor">Instructor:</label>
+			<select name="instructor" id="instructor" th:field="*{instructor}">
+				<option th:each="i : ${instructor}" th:value="${i.instructorID}"
+					th:text="${i.firstName} + ' ' + ${i.lastName}" th:unless="${i.role == 'ADMIN'}"></option>
+			</select>
+
+			<!-- Submit Button 
+			<p class="text-center submit-btn mt-3">
+				<button type="submit" class="btn btn-primary">Enroll</button>
+			</p>
+		</form>
+		-->
 
 		<form th:action="@{/processenrollcourse}" method="post" th:object="${enrollment}">
 			<!-- Enrollment Date -->
@@ -145,7 +171,7 @@
 
 			<!-- Submit Button -->
 			<p class="text-center submit-btn mt-3">
-				<button type="submit" class="btn btn-primary">Enroll</button>
+				<button type="submit" class="btn btn-primary">Submit</button>
 			</p>
 		</form>
 	</div>

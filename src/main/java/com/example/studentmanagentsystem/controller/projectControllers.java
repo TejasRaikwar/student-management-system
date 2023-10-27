@@ -49,6 +49,9 @@ public class projectControllers {
     
     @Autowired
     EnrollmetService enrollService;
+    
+	@Autowired
+	private EnrollmetService enrollmentService;
 
 	// Route for home page
 	@GetMapping("/")
@@ -124,12 +127,7 @@ public class projectControllers {
 		return "addcourse";
 	}
 	
-//	@PostMapping("/addcourseprocess")
-//	public String addCourseProcess(Course course) {
-//		courseRepository.save(course);
-//		return "adminpage";
-//	}
-//	
+	
 	@PostMapping("/addcourseprocess")
 	public String addCourseProcess(@Valid @ModelAttribute("course") Course course, BindingResult bindingResult) {
 	    // Check if a course with the same title already exists
@@ -160,7 +158,10 @@ public class projectControllers {
 		List<Course> list = courseService.getAllCourse();
 		return new ModelAndView("courseslist", "course", list);
 	}
+
 	
+	
+//	Need to find error
 	
 	@GetMapping("/enrollcourse")
 	public ModelAndView enrollCourse(Model model) {
@@ -171,49 +172,26 @@ public class projectControllers {
 		model.addAttribute("enrollment", new Enrollment());
 		return new ModelAndView("enrollcourse");
 	}
+
+    @PostMapping("/processenrollcourse")
+    public String processEnrollCourse(@ModelAttribute("enrollment") Enrollment enrollment, BindingResult bindingResult) {
+    	enrollment.setStudent(id);
+    	System.out.println("Hi");
+        System.out.println(id);
+        System.out.println(enrollment);
+        
+    	if (bindingResult.hasErrors()) {
+            // Validation failed, return to the form with error messages
+            return "enrollcourse";
+        }
+
+        // Handle the enrollment process (save to the database) here
+        enrollmentService.save(enrollment);
+
+        return "userpage"; // Redirect to a success page
+    }	
+//	End of Error
 	
-	
-	@PostMapping("/processenrollcourse")
-	public String processEnrollCourse(@ModelAttribute("enrollment") Enrollment enrollment,
-			BindingResult bindingResult) {
-      if (bindingResult.hasErrors()) {
-      // Validation failed, return to the sign-up form with error messages
-    	  return "enrollcourse";
-      }
-      try {
-    	// Retrieve the Student entity using the id
-          Optional<Student> studentOptional = studentRepository.findById(id);
-          if (studentOptional.isPresent()) {
-              Student student = studentOptional.get();
-              enrollment.setStudent(student);
-              enrollService.save(enrollment);
-//              enrollmentRepository.save(enrollment);
-              return "redirect:/userpage";
-          } else {
-              // Handle the case where the student with the given id is not found
-              // You might want to display an error message or redirect accordingly
-              return "enrollcourse"; // or some other error handling logic
-          }
-      }
-      catch (DataIntegrityViolationException e) {
-    	    bindingResult.rejectValue("studentID", "error.enrollment", "Enrollment failed due to data integrity violation.");
-    	    return "enrollcourse";
-    	}
-	}
-	
-//	@PostMapping("/processenrollcourse")
-//	public String processEnrollCourse(@ModelAttribute("enrollment") Enrollment enrollment, BindingResult bindingResult) {
-//	    if (bindingResult.hasErrors()) {
-//	        return "enrollcourse"; // Validation failed, return to the enrollcourse form with error messages
-//	    }
-//	    try {
-//	        enrollService.save(enrollment);
-//	        return "redirect:/userpage"; // Redirect to a success page after enrollment
-//	    } catch (DataIntegrityViolationException e) {
-//	        bindingResult.rejectValue("student", "error.enrollment", "Enrollment failed due to data integrity violation.");
-//	        return "enrollcourse";
-//	    }
-//	}
 
 	
 	@GetMapping("/enrollments")

@@ -31,6 +31,12 @@ public class Instructor {
 
 	private String role;
 	
+	@Override
+	public String toString() {
+		return "Instructor [instructorID=" + instructorID + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", password=" + password + ", role=" + role + ", course=" + course + "]";
+	}
+
 	private int course;
 
 	public int getCourse() {

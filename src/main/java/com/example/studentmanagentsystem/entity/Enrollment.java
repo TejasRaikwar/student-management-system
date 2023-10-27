@@ -10,21 +10,15 @@ public class Enrollment {
     @Column(name = "EnrollmentID")
     private int enrollmentID;
     
-//    @ManyToOne
-//    @JoinColumn(name = "InstructorID")
-//    private Instructor instructor;
     private int instructor;
     
-//    @Column(name = "EnrollmentDate")
-//    @Temporal(TemporalType.DATE)
+
     private String enrollmentDate;
     
-//    @ManyToOne
-//    @JoinColumn(name = "StudentID")
+
     private int student;
     
-//    @ManyToOne
-//    @JoinColumn(name = "CourseID")
+
     private int course;
 
 	public int getEnrollmentID() {

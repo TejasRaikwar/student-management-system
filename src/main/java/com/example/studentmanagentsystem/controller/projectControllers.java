@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.example.studentmanagentsystem.entity.Course;
 import com.example.studentmanagentsystem.entity.Enrollment;
+import com.example.studentmanagentsystem.entity.Feedback;
 import com.example.studentmanagentsystem.entity.Instructor;
 import com.example.studentmanagentsystem.entity.Student;
 import com.example.studentmanagentsystem.entity.repository.CourseRepository;
 import com.example.studentmanagentsystem.entity.repository.EnrollmentRepository;
+import com.example.studentmanagentsystem.entity.repository.FeedbackRepository;
 import com.example.studentmanagentsystem.entity.repository.InstructorRepository;
 import com.example.studentmanagentsystem.entity.repository.StudentRepository;
 import com.example.studentmanagentsystem.model.LoginModel;
@@ -52,6 +54,9 @@ public class projectControllers {
     
 	@Autowired
 	private EnrollmetService enrollmentService;
+	
+	@Autowired
+	private FeedbackRepository feedbackRepo;
 
 	// Route for home page
 	@GetMapping("/")
@@ -154,14 +159,14 @@ public class projectControllers {
 	
 	
 	@GetMapping("/allcourses")
-	public ModelAndView getAllBook() {
+	public ModelAndView getAllCourse() {
 		List<Course> list = courseService.getAllCourse();
 		return new ModelAndView("courseslist", "course", list);
 	}
 
 	
 	
-//	Need to find error
+
 	
 	@GetMapping("/enrollcourse")
 	public ModelAndView enrollCourse(Model model) {
@@ -176,9 +181,6 @@ public class projectControllers {
     @PostMapping("/processenrollcourse")
     public String processEnrollCourse(@ModelAttribute("enrollment") Enrollment enrollment, BindingResult bindingResult) {
     	enrollment.setStudent(id);
-    	System.out.println("Hi");
-        System.out.println(id);
-        System.out.println(enrollment);
         
     	if (bindingResult.hasErrors()) {
             // Validation failed, return to the form with error messages
@@ -190,8 +192,7 @@ public class projectControllers {
 
         return "userpage"; // Redirect to a success page
     }	
-//	End of Error
-	
+
 
 	
 	@GetMapping("/enrollments")
@@ -199,11 +200,55 @@ public class projectControllers {
 		return "enrollments";
 	}
 	
-	@GetMapping("/feedbacks")
-	public String feedbacks() {
-		return "feedback";
-	}
 	
+    @GetMapping("/feedbacks")
+    public ModelAndView instructorSignup(Model model) {
+    	List<Instructor> instructors = instructorRepository.findAll();
+        model.addAttribute("instructors", instructors);
+        model.addAttribute("feedback", new Feedback());
+        return new ModelAndView("feedback");
+    }
+    
+//    @PostMapping("/processfeedback")
+//    public String processFeedback(@ModelAttribute("feedback") Feedback feedback, BindingResult bindingResult) {
+//    	try {
+//    	if (bindingResult.hasErrors()) {
+//            // Validation failed, return to the form with error messages
+//            return "feedback";
+//        }
+//    	feedback.setStudent(id);
+//    	feedbackRepo.save(feedback);
+//    	return "feedback";
+//    }
+//    catch(Exception e) {
+//    	 // Log the exception for debugging
+//        e.printStackTrace();
+//        return "error"; // Redirect to an error page
+//    }
+//    }
+    @PostMapping("/processfeedback")
+    public String processFeedback(@ModelAttribute("feedback") Feedback feedback, BindingResult bindingResult) {
+        System.out.println("entered");
+    	try {
+            if (bindingResult.hasErrors()) {
+            	System.out.println("error");
+                // Validation failed, return to the form with error messages
+                return "feedback";
+            }
+            
+            feedback.setStudentid(id);
+            System.out.println(feedback);
+            // Save the feedback to the database
+            feedbackRepo.save(feedback);
+
+            return "success-feedback"; // Redirect to a success page
+        } catch (Exception e) {
+            // Log the exception for debugging
+            e.printStackTrace();
+            return "error"; // Redirect to an error page
+        }
+    }
+
 	@GetMapping("/logout")
 	public String handleLogout() {
 		return "home";

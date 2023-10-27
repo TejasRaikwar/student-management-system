@@ -107,50 +107,6 @@
 	</nav>
 	<div class="enroll-form my-3">
 		<h1 class="text-center fw-bold">Enrollment Form</h1>
-		<!---	<form th:action="@{/processenrollcourse}" method="post" th:object="${enrollment}">
-			<!-- enroll date 
-			<label for="enrolldate">Enrollment Date : </label><br>
-			<input type="date" name="enrolldate" id="enrolldate" th:field="*{enrollmentDate}" />
-			<!-- Course 
-			<label for="course">Course : </label>
-			<select name="course" id="course" th:feild="*{course}">
-				<option th:each="i : ${course}" th:value="${i.courseID}" th:text="${i.courseTitle}"></option>
-			</select>
-			<!-- Instructor 
-			<label for="instructor">Instructor : </label>
-			<select name="instructor" id="instructor" th:feild="*{instructor}">
-				<option th:each="i : ${instructor}" th:value="${i.instructorID}"
-					th:text="${i.firstName}+' '+${i.lastName}" th:unless="${i.role == 'ADMIN'}"></option>
-			</select>
-			<!--Submit Button 
-			<p class="text-center submit-btn mt-3"><button type="submit" class="btn btn-primary">Sign up</button></p>
-		</form>-->
-		<!--
-		<form th:action="@{/processenrollcourse}" method="post" th:object="${enrollment}">
-			<!-- Enrollment Date 
-			<label for="enrolldate">Enrollment Date:</label><br>
-			<input type="date" name="enrollmentDate" id="enrolldate" th:field="*{enrollmentDate}" />
-
-			<!-- Course 
-			<label for="course">Course:</label>
-			<select name="course" id="course" th:field="*{course}">
-				<option th:each="c : ${course}" th:value="${c.courseID}" th:text="${c.courseTitle}"></option>
-			</select>
-
-			<!-- Instructor 
-			<label for="instructor">Instructor:</label>
-			<select name="instructor" id="instructor" th:field="*{instructor}">
-				<option th:each="i : ${instructor}" th:value="${i.instructorID}"
-					th:text="${i.firstName} + ' ' + ${i.lastName}" th:unless="${i.role == 'ADMIN'}"></option>
-			</select>
-
-			<!-- Submit Button 
-			<p class="text-center submit-btn mt-3">
-				<button type="submit" class="btn btn-primary">Enroll</button>
-			</p>
-		</form>
-		-->
-
 		<form th:action="@{/processenrollcourse}" method="post" th:object="${enrollment}">
 			<!-- Enrollment Date -->
 			<label for="enrolldate">Enrollment Date:</label><br>

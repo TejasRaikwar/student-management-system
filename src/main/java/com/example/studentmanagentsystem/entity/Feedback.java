@@ -10,21 +10,15 @@ public class Feedback {
     @Column(name = "FeedbackID")
     private int feedbackID;
     
-    @ManyToOne
-    @JoinColumn(name = "StudentID")
-    private Student student;
+    private int studentid;
     
-    @Column(name = "InstructorName", length = 100)
     private String instructorName;
     
-    @Column(name = "Feedback", columnDefinition = "TEXT")
     private String feedback;
     
-    @Column(name = "Date")
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    //    Getters and Setters
 	public int getFeedbackID() {
 		return feedbackID;
 	}
@@ -33,12 +27,12 @@ public class Feedback {
 		this.feedbackID = feedbackID;
 	}
 
-	public Student getStudent() {
-		return student;
+	public int getStudentid() {
+		return studentid;
 	}
 
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudentid(int studentid) {
+		this.studentid = studentid;
 	}
 
 	public String getInstructorName() {
@@ -65,4 +59,11 @@ public class Feedback {
 		this.date = date;
 	}
 
+	@Override
+	public String toString() {
+		return "Feedback [feedbackID=" + feedbackID + ", studentid=" + studentid + ", instructorName=" + instructorName
+				+ ", feedback=" + feedback + ", date=" + date + "]";
+	}
+
+	
 }

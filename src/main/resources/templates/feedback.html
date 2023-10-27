@@ -1,99 +1,133 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"integrity="sha384-EVSTQN3/" crossorigin="anonymous">
-<style>
-    .logout-btn {
-        margin-right: 1rem;
-        font-weight: bolder;
-        color: white;
-        cursor: pointer;
-    }
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		integrity="sha384-EVSTQN3/" crossorigin="anonymous">
+	<style>
+		.logout-btn {
+			margin-right: 1rem;
+			font-weight: bolder;
+			color: white;
+			cursor: pointer;
+		}
 
-    .btn1 {
-        width: 100px;
-        background: none;
-        border: none;
-    }
+		.btn1 {
+			width: 100px;
+			background: none;
+			border: none;
+		}
 
-    table,
-    th,
-    td {
-        border: 1px solid black;
-    }
+		table,
+		th,
+		td {
+			border: 1px solid black;
+		}
 
-    table {
-        margin-left: 5rem;
-    }
+		table {
+			margin-left: 5rem;
+		}
 
-    th,
-    td {
-        width: 150px;
-        text-align: center;
-    }
-    .enroll-form {
-        border: 2px solid black;
-        width: 600px;
-        border-radius: 1rem;
-        padding: 1rem;
-        margin-left: 32%;
-    }
-    input,
-    select {
-        width: 100%;
-        padding: 7px;
-    }
-    .submit-btn>button
-    {
-        width: 150px;
-        font-size: 1.2rem;
-        font-weight: 700;
-    }
-    select {
-        background-color: white;
-        border: 1px solid rgb(91, 90, 90);
-        border-radius: 2px;
-        color:black;
-    }
-    option{
-        color:black;
-    }
-    .bt1 {
-        width: 100px;
-        background: none;
-        border: none;
-    }
-    label{
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 0.8rem;
-    }
-</style>
+		th,
+		td {
+			width: 150px;
+			text-align: center;
+		}
+
+		.feedback-form {
+			border: 2px solid black;
+			width: 600px;
+			border-radius: 1rem;
+			padding: 1rem;
+			margin-left: 32%;
+		}
+
+		input,
+		select,
+		textarea {
+			width: 100%;
+			padding: 7px;
+		}
+
+		.submit-btn>button {
+			width: 150px;
+			font-size: 1.2rem;
+			font-weight: 700;
+		}
+
+		select {
+			background-color: white;
+			border: 1px solid rgb(91, 90, 90);
+			border-radius: 2px;
+			color: black;
+		}
+
+		option {
+			color: black;
+		}
+
+		.bt1 {
+			width: 100px;
+			background: none;
+			border: none;
+		}
+
+		label {
+			font-size: 1.2rem;
+			font-weight: 600;
+			margin-bottom: 0.8rem;
+		}
+	</style>
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-        <div class="container-fluid">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active text-white fw-bold" aria-current="page" href="/">Home</a>
-                </li>
-            </ul>
-        </div>
-        <div class="d-flex flex-row-reverse bd-highlight">
-            <form action="/logout" method="get">
-                <div class="logout-btn">Logout</div>
-            </form>
-            <form action="/enrollcourse" method="get">
-                <button type="submit" class="logout-btn bt1" style="width: 110px;">Enroll Course</button>
-            </form>
-            <form action="/enrollments" method="get">
-                <button type="submit" class="logout-btn bt1">Enrollments</button>
-            </form>
-            <form action="/feedbacks" method="get">
-                <button type="submit" class="logout-btn bt1">Feedbacks</button>
-            </form>
-        </div>
-    </nav>
+	<nav class="navbar navbar-expand-lg navbar-light bg-primary ">
+		<div class="container-fluid">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item"><a class="nav-link active text-white fw-bold" aria-current="page" href="/">Home</a>
+				</li>
+			</ul>
+		</div>
+		<div class="d-flex flex-row-reverse bd-highlight">
+			<form action="/logout" method="get">
+				<div class="logout-btn">Logout</div>
+			</form>
+			<form action="/enrollcourse" method="get">
+				<button type="submit" class="logout-btn bt1" style="width: 110px;">Enroll Course</button>
+			</form>
+			<form action="/enrollments" method="get">
+				<button type="submit" class="logout-btn bt1">Enrollments</button>
+			</form>
+			<form action="/feedbacks" method="get">
+				<button type="submit" class="logout-btn bt1">Feedbacks</button>
+			</form>
+		</div>
+	</nav>
+	<div class="feedback-form my-3">
+		<h1>Feedback</h1>
+		<form th:action="@{/processfeedback}" method="post" th:object="${feedback}">
+			<label for="date">Date:</label>
+			<input type="date" name="date" id="date" th:field="*{date}">
+
+			<label for="instructorName">Select Instructor: </label>
+			<select name="instructorName" id="instructorName" th:field="*{instructorName}">
+				<option th:each="instructor : ${instructors}"
+					th:value="${instructor.firstName + ' ' + instructor.lastName}"
+					th:text="${instructor.firstName + ' ' + instructor.lastName}"
+					th:unless="${instructor.role == 'ADMIN'}"></option>
+			</select>
+
+			<label for="feedback">Feedback:</label>
+			<textarea name="feedback" id="feedback" th:field="*{feedback}"></textarea>
+
+			<p class="text-center submit-btn mt-3">
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</p>
+		</form>
+
+
+	</div>
 </body>
 </html>

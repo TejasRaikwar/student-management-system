@@ -1,6 +1,7 @@
 package com.example.studentmanagentsystem.entity;
 import java.util.Date;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Feedback")
@@ -10,13 +11,18 @@ public class Feedback {
     @Column(name = "FeedbackID")
     private int feedbackID;
     
+    @Column(name = "StudentID")
     private int studentid;
     
+    @Column(name = "InstructorName")
     private String instructorName;
     
+    @Column(name = "FeedbackContent")
+    @NotEmpty
     private String feedback;
     
     @Temporal(TemporalType.DATE)
+    @Column(name = "FeedbackDate")
     private Date date;
 
 	public int getFeedbackID() {

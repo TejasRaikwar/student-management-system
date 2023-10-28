@@ -1,5 +1,6 @@
 package com.example.studentmanagentsystem.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.example.studentmanagentsystem.dto.EnrollmentDisplayDTO;
 import com.example.studentmanagentsystem.entity.Course;
 import com.example.studentmanagentsystem.entity.Enrollment;
 import com.example.studentmanagentsystem.entity.Feedback;
@@ -153,20 +156,11 @@ public class projectControllers {
 	    return "addcourse"; // Return to the addcourse page if there are other validation errors
 	}
 
-
-	
-	
-	
-	
 	@GetMapping("/allcourses")
 	public ModelAndView getAllCourse() {
 		List<Course> list = courseService.getAllCourse();
 		return new ModelAndView("courseslist", "course", list);
 	}
-
-	
-	
-
 	
 	@GetMapping("/enrollcourse")
 	public ModelAndView enrollCourse(Model model) {
@@ -196,8 +190,10 @@ public class projectControllers {
 
 	
 	@GetMapping("/enrollments")
-	public String enrollments() {
-		return "enrollments";
+	public ModelAndView enrollments(Model model) {
+		List<EnrollmentDisplayDTO> enrollmentDTOs = enrollmentService.getAllEnrollmentsWithCourseAndInstructorDetails();
+		model.addAttribute("enrollments", enrollmentDTOs);
+		return new ModelAndView ("enrollments");
 	}
 	
 	
@@ -237,11 +233,11 @@ public class projectControllers {
             }
             
             feedback.setStudentid(id);
-            System.out.println(feedback);
+            feedback.setDate(new Date());
+            System.out.println(feedback.getFeedback());
             // Save the feedback to the database
             feedbackRepo.save(feedback);
-
-            return "success-feedback"; // Redirect to a success page
+            return "feedback"; // Redirect to a success page
         } catch (Exception e) {
             // Log the exception for debugging
             e.printStackTrace();

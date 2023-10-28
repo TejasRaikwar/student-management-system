@@ -12,7 +12,6 @@ public class Enrollment {
     
     private int instructor;
     
-
     private String enrollmentDate;
     
 

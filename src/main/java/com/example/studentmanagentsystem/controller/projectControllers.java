@@ -197,7 +197,6 @@ public class projectControllers {
     @GetMapping("/feedbacks")
     public ModelAndView instructorSignup(Model model) {
     	List<Feedback> studentFeedback = feedbackRepo.findByStudentid(id);
-    	System.out.println(studentFeedback);
     	List<Instructor> instructors = instructorRepository.findAll();
         model.addAttribute("instructors", instructors);
         model.addAttribute("studentFeedbacks", studentFeedback);
@@ -216,8 +215,6 @@ public class projectControllers {
             }
             
             feedback.setStudentid(id);
-            feedback.setDate(new Date());
-            System.out.println(feedback.getFeedback());
             // Save the feedback to the database
             feedbackRepo.save(feedback);
             return "feedback"; // Redirect to a success page

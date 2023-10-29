@@ -26,10 +26,6 @@
 			border: 1px solid black;
 		}
 
-		table {
-			margin-left: 5rem;
-		}
-
 		th,
 		td {
 			width: 150px;
@@ -79,6 +75,10 @@
 			font-weight: 600;
 			margin-bottom: 0.8rem;
 		}
+		h2{
+			text-align: center;
+			font-weight: bold;
+		}
 	</style>
 </head>
 
@@ -126,6 +126,25 @@
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</p>
 		</form>
+	</div>
+	<div>
+		<h3> Your Feedbacks:</h3>
+		    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col" class="bg-primary">Feedback Date</th>
+                <th scope="col" class="bg-primary">Instructor Name</th>
+                <th scope="col" class="bg-primary">Feedback</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="c :${studentFeedbacks}">
+                <td th:text="${c.date}"></td>
+                <td th:text="${c.instructorName}"></td>
+                <td th:text="${c.feedback}"></td>
+            </tr>
+        </tbody>
+    </table>
 	</div>
 </body>
 </html>

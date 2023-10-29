@@ -4,6 +4,7 @@ public class EnrollmentDisplayDTO {
     private String courseTitle;
     private String instructorName;
     private String enrollmentDate;
+    
 	public String getCourseTitle() {
 		return courseTitle;
 	}

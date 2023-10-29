@@ -2,7 +2,7 @@ package com.example.studentmanagentsystem.controller;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,7 +21,7 @@ import com.example.studentmanagentsystem.entity.Feedback;
 import com.example.studentmanagentsystem.entity.Instructor;
 import com.example.studentmanagentsystem.entity.Student;
 import com.example.studentmanagentsystem.entity.repository.CourseRepository;
-import com.example.studentmanagentsystem.entity.repository.EnrollmentRepository;
+
 import com.example.studentmanagentsystem.entity.repository.FeedbackRepository;
 import com.example.studentmanagentsystem.entity.repository.InstructorRepository;
 import com.example.studentmanagentsystem.entity.repository.StudentRepository;
@@ -45,10 +45,7 @@ public class projectControllers {
 	
 	@Autowired
 	private CourseRepository courseRepository;
-	
-	@Autowired
-	private EnrollmentRepository enrollmentRepository;
-	
+		
     @Autowired
     CourseService courseService;
     
@@ -199,29 +196,15 @@ public class projectControllers {
 	
     @GetMapping("/feedbacks")
     public ModelAndView instructorSignup(Model model) {
+    	List<Feedback> studentFeedback = feedbackRepo.findByStudentid(id);
+    	System.out.println(studentFeedback);
     	List<Instructor> instructors = instructorRepository.findAll();
         model.addAttribute("instructors", instructors);
+        model.addAttribute("studentFeedbacks", studentFeedback);
         model.addAttribute("feedback", new Feedback());
         return new ModelAndView("feedback");
     }
     
-//    @PostMapping("/processfeedback")
-//    public String processFeedback(@ModelAttribute("feedback") Feedback feedback, BindingResult bindingResult) {
-//    	try {
-//    	if (bindingResult.hasErrors()) {
-//            // Validation failed, return to the form with error messages
-//            return "feedback";
-//        }
-//    	feedback.setStudent(id);
-//    	feedbackRepo.save(feedback);
-//    	return "feedback";
-//    }
-//    catch(Exception e) {
-//    	 // Log the exception for debugging
-//        e.printStackTrace();
-//        return "error"; // Redirect to an error page
-//    }
-//    }
     @PostMapping("/processfeedback")
     public String processFeedback(@ModelAttribute("feedback") Feedback feedback, BindingResult bindingResult) {
         System.out.println("entered");

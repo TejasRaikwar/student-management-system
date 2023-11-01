@@ -1,9 +1,6 @@
 package com.example.studentmanagentsystem.controller;
 
-import java.util.Date;
 import java.util.List;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.example.studentmanagentsystem.dto.EnrollmentDisplayDTO;
 import com.example.studentmanagentsystem.entity.Course;
 import com.example.studentmanagentsystem.entity.Enrollment;
@@ -21,22 +17,21 @@ import com.example.studentmanagentsystem.entity.Feedback;
 import com.example.studentmanagentsystem.entity.Instructor;
 import com.example.studentmanagentsystem.entity.Student;
 import com.example.studentmanagentsystem.entity.repository.CourseRepository;
-
 import com.example.studentmanagentsystem.entity.repository.FeedbackRepository;
 import com.example.studentmanagentsystem.entity.repository.InstructorRepository;
 import com.example.studentmanagentsystem.entity.repository.StudentRepository;
 import com.example.studentmanagentsystem.model.LoginModel;
 import com.example.studentmanagentsystem.service.CourseService;
 import com.example.studentmanagentsystem.service.EnrollmetService;
-
+import com.example.studentmanagentsystem.service.InstructorService;
 import jakarta.validation.Valid;
 
 
 @Controller
 public class projectControllers {
 	
-	int id = -1;
-
+	public int id = -1;
+	
 	@Autowired
 	private StudentRepository studentRepository;
 
@@ -57,6 +52,9 @@ public class projectControllers {
 	
 	@Autowired
 	private FeedbackRepository feedbackRepo;
+	
+	@Autowired
+	private InstructorService instructorService;
 
 	// Route for home page
 	@GetMapping("/")
@@ -113,6 +111,8 @@ public class projectControllers {
 			}
 		} else {
 			Instructor dbUser = instructorRepository.findByEmail(loginModel.getEmail());
+			instructorService.setInstructorName(dbUser.getFirstName()+" "+dbUser.getLastName());
+			instructorService.setInstructorId(dbUser.getInstructorID());
 			if (dbUser != null && loginModel.getPassword().equals(dbUser.getPassword())) {
 				if ("ADMIN".equals(dbUser.getRole())) {
 					return "adminpage";
@@ -125,13 +125,11 @@ public class projectControllers {
 		}
 	}
 	
-	
 	@GetMapping("/addcourse")
 	public String addCourse(Model model) {
 		model.addAttribute("course", new Course());
 		return "addcourse";
 	}
-	
 	
 	@PostMapping("/addcourseprocess")
 	public String addCourseProcess(@Valid @ModelAttribute("course") Course course, BindingResult bindingResult) {
@@ -184,7 +182,6 @@ public class projectControllers {
         return "userpage"; // Redirect to a success page
     }	
 
-
 	
 	@GetMapping("/enrollments")
 	public ModelAndView enrollments(Model model) {
@@ -195,7 +192,7 @@ public class projectControllers {
 	
 	
     @GetMapping("/feedbacks")
-    public ModelAndView instructorSignup(Model model) {
+    public ModelAndView studentFeedback(Model model) {
     	List<Feedback> studentFeedback = feedbackRepo.findByStudentid(id);
     	List<Instructor> instructors = instructorRepository.findAll();
         model.addAttribute("instructors", instructors);
@@ -213,7 +210,6 @@ public class projectControllers {
                 // Validation failed, return to the form with error messages
                 return "feedback";
             }
-            
             feedback.setStudentid(id);
             // Save the feedback to the database
             feedbackRepo.save(feedback);
@@ -229,4 +225,41 @@ public class projectControllers {
 	public String handleLogout() {
 		return "home";
 	}
+	
+	
+    @GetMapping("/studentprofile")
+    public String showProfile(Model model) {
+        // Fetch the logged-in user's details based on their ID (you might need to get the ID from the session or login details)
+        Student student = studentRepository.findById(id);
+        model.addAttribute("student", student);
+        return "student-profile";
+    }
+    
+    
+    @PostMapping("/updateProfile")
+    public String updateProfile(@ModelAttribute("student") Student updatedUser) {
+        // Fetch the original user from the database
+        Student originalUser = studentRepository.findById(updatedUser.getStudentID());
+
+        // Update the user's profile information
+        originalUser.updateProfile(updatedUser.getFirstName(), updatedUser.getLastName(), updatedUser.getDob(),
+                updatedUser.getGender(), updatedUser.getPhone());
+
+        // Save the updated information to the database
+        studentRepository.save(originalUser);
+        return "redirect:/studentprofile"; // Redirect back to the profile page
+    }
+    
+    
+
+    @PostMapping("/deleteAccount")
+    public String deleteAccount() {
+        // Fetch the user based on their ID
+        Student user = studentRepository.findById(id);
+
+        // Delete the user account from the database
+        studentRepository.delete(user);
+        return "home"; // Redirect to the home page after account deletion
+    }
+	
 }

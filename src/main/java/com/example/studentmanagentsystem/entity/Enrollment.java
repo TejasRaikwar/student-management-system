@@ -1,24 +1,23 @@
 package com.example.studentmanagentsystem.entity;
+
 import java.util.Date;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Enrollment")
 public class Enrollment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EnrollmentID")
-    private int enrollmentID;
-    
-    private int instructor;
-    
-    private String enrollmentDate;
-    
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "EnrollmentID")
+	private int enrollmentID;
 
-    private int student;
-    
+	private int instructor;
 
-    private int course;
+	private String enrollmentDate;
+
+	private int student;
+
+	private int course;
 
 	public int getEnrollmentID() {
 		return enrollmentID;

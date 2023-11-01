@@ -11,17 +11,13 @@ public class Score {
     @Column(name = "ScoreID")
     private int scoreID;
     
-    @ManyToOne
-    @JoinColumn(name = "StudentID")
-    private Student student;
+    private int student;
     
-    @ManyToOne
-    @JoinColumn(name = "CourseID")
-    private Course course;
+    private int course;
     
     @Column(name = "DateOfExam")
     @Temporal(TemporalType.DATE)
-    private Date dateOfExam;
+    private String dateOfExam;
     
     @Column(name = "CreditObtained", precision = 5, scale = 2)
     private BigDecimal creditObtained;
@@ -35,27 +31,27 @@ public class Score {
 		this.scoreID = scoreID;
 	}
 
-	public Student getStudent() {
+	public int getStudent() {
 		return student;
 	}
 
-	public void setStudent(Student student) {
+	public void setStudent(int student) {
 		this.student = student;
 	}
 
-	public Course getCourse() {
+	public int getCourse() {
 		return course;
 	}
 
-	public void setCourse(Course course) {
+	public void setCourse(int course) {
 		this.course = course;
 	}
 
-	public Date getDateOfExam() {
+	public String getDateOfExam() {
 		return dateOfExam;
 	}
 
-	public void setDateOfExam(Date dateOfExam) {
+	public void setDateOfExam(String dateOfExam) {
 		this.dateOfExam = dateOfExam;
 	}
 

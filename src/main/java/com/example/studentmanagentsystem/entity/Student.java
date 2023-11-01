@@ -80,6 +80,14 @@ public class Student {
 		this.email = email;
 		this.phone = phone;
 	}
+    
+    public void updateProfile(String firstName, String lastName, Date dob, String gender, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.gender = gender;
+        this.phone = phone;
+    }
 
 	public Student() {
 		// TODO Auto-generated constructor stub
@@ -139,5 +147,9 @@ public class Student {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public Student orElse(Object object) {
+		// TODO Auto-generated method stub
+		return null;
 	}  
 }

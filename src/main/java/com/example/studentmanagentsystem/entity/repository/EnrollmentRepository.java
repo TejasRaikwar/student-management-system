@@ -7,5 +7,6 @@ import java.util.List;
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer> {
 	List<Enrollment> findByStudent(int student);
+	List<Enrollment> findByInstructor(int instructor);
 }
 

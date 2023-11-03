@@ -38,7 +38,7 @@
 	<nav class="navbar navbar-expand-lg navbar-light bg-primary ">
 		<div class="container-fluid">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item"><a class="nav-link active text-white fw-bold" aria-current="page" href="/">Home</a>
+				<li class="nav-item"><a class="nav-link active text-white fw-bold" aria-current="page">Home</a>
 				</li>
 			</ul>
 		</div>
@@ -46,6 +46,9 @@
 			<form action="/logout" method="get">
 				<div class="logout-btn">Logout</div>
 			</form>
+			<a href="/instructorprofile">
+				<div class="logout-btn">Profile</div>
+			</a>
 			<form action="/listscores" method="get">
 				<button type="submit" class="logout-btn bt1">Scores List</button>
 			</form>
@@ -61,21 +64,21 @@
 		<h3>Scores List :</h3>
 		<table class="table table-striped table-hover">
 			<thead>
-                <tr>
-                    <th scope="col" class="bg-primary">Student Name</th>
-                    <th scope="col" class="bg-primary">Course Name</th>
-                    <th scope="col" class="bg-primary">Exam Date</th>
-                    <th scope="col" class="bg-primary">Credits Obtained</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="score : ${scores}">
-                    <td th:text="${score.studentName}"></td>
-                    <td th:text="${score.course}"></td>
-                    <td th:text="${score.date}"></td>
-                    <td th:text="${score.credits}"></td>
-                </tr>
-            </tbody>
+				<tr>
+					<th scope="col" class="bg-primary">Student Name</th>
+					<th scope="col" class="bg-primary">Course Name</th>
+					<th scope="col" class="bg-primary">Exam Date</th>
+					<th scope="col" class="bg-primary">Credits Obtained</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="score : ${scores}">
+					<td th:text="${score.student}"></td>
+					<td th:text="${score.course}"></td>
+					<td th:text="${score.dateOfExam}"></td>
+					<td th:text="${score.creditObtained}"></td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 </body>

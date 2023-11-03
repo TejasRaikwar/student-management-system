@@ -32,6 +32,10 @@ public class projectControllers {
 	
 	public int id = -1;
 	
+	public static int instructorId;
+	
+	private String role;
+	
 	@Autowired
 	private StudentRepository studentRepository;
 
@@ -111,6 +115,7 @@ public class projectControllers {
 			}
 		} else {
 			Instructor dbUser = instructorRepository.findByEmail(loginModel.getEmail());
+			instructorId = dbUser.getInstructorID();
 			instructorService.setInstructorName(dbUser.getFirstName()+" "+dbUser.getLastName());
 			instructorService.setInstructorId(dbUser.getInstructorID());
 			if (dbUser != null && loginModel.getPassword().equals(dbUser.getPassword())) {
@@ -207,7 +212,7 @@ public class projectControllers {
     	try {
             if (bindingResult.hasErrors()) {
             	System.out.println("error");
-                // Validation failed, return to the form with error messages
+                // Validation failed
                 return "feedback";
             }
             feedback.setStudentid(id);
@@ -234,8 +239,33 @@ public class projectControllers {
         model.addAttribute("student", student);
         return "student-profile";
     }
-    
-    
+
+	     @PostMapping("/updateProfile")
+		public String updateProfile(@ModelAttribute("student") Student updatedUser) {
+		    Student originalUser = studentRepository.findById(updatedUser.getStudentID());
+		
+		    if (originalUser != null) {
+		        // Update the user's profile information
+		        originalUser.updateProfile(
+		            updatedUser.getFirstName(), 
+		            updatedUser.getLastName(), 
+		            updatedUser.getDob(),
+		            updatedUser.getGender(), 
+		            updatedUser.getPhone()
+		        );
+		
+		        // Save the updated information to the database
+		        studentRepository.save(originalUser);
+		        return "redirect:/student-profile"; // Redirect back to the profile page
+		    } else {
+		        // Handle the case where the user is not found
+		        // You might want to redirect to an error page or handle it appropriately
+		        return "redirect:/errorPage";
+		    }
+	}
+
+
+  /*  
     @PostMapping("/updateProfile")
     public String updateProfile(@ModelAttribute("student") Student updatedUser) {
         // Fetch the original user from the database
@@ -249,9 +279,8 @@ public class projectControllers {
         studentRepository.save(originalUser);
         return "redirect:/studentprofile"; // Redirect back to the profile page
     }
+   */
     
-    
-
     @PostMapping("/deleteAccount")
     public String deleteAccount() {
         // Fetch the user based on their ID

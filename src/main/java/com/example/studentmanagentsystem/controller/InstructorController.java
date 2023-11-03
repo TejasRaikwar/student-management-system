@@ -62,6 +62,8 @@ public class InstructorController {
 
 	@Autowired
 	private ScoreRepository scoreRepository;
+	
+//	private Instructor instructor;
 
 	public InstructorController(InstructorRepository instructorRepository, CourseRepository courseRepo) {
 		this.instructorRepository = instructorRepository;
@@ -172,71 +174,67 @@ public class InstructorController {
 
         return "redirect:/listscores";
     }
-	/*
+
 	@GetMapping("/listscores")
 	public ModelAndView scoresList(Model model) {
 		List<Score> list = scoreRepository.findAll();
-		List<ScoreDisplayDTO> scoreList = new ArrayList<>();
-		
-		for (Score score : list) {
-			ScoreDisplayDTO scoreDisplay = new ScoreDisplayDTO();
-			scoreDisplay.setScoreId(score.getScoreID());
-			Student student = studentRepo.findById(score.getStudent());
-			
-			if (student != null) {
-	            String studentName = student.getFirstName() + " " + student.getLastName();
-	            scoreDisplay.setStudentName(studentName);
-	        }
-			
-//			Course course = courseRepo.findById(score.getCourse());
-			Optional<Course> course = courseRepo.findById(score.getCourse());
-	        
-			if (course != null) {
-	            scoreDisplay.setCourse(course.getCourseTitle());
-	            scoreDisplay.setCredits(course.getCredits());
-	        }
-			
-	        scoreDisplay.setDate(score.getDateOfExam());
-	        scoreList.add(scoreDisplay);
-		}
-		
-		model.addAttribute("scores",scoreList);
+		List<ScoreDisplayDTO> scoresList = new ArrayList<>();
+		System.out.println(scoresList.isEmpty());
+		model.addAttribute("scores",list);
 		return new ModelAndView("instructor-scorelist");
 	}
-	*/
-	@GetMapping("/listscores")
-	public ModelAndView scoresList(Model model) {
-	    List<Score> list = scoreRepository.findAll();
-	    List<ScoreDisplayDTO> scoreList = new ArrayList<>();
+	
+/*	
+	@GetMapping("/instructorprofile")
+	public String showProfile(Model model) {
+        // Fetch the logged-in user's details based on their ID (you might need to get the ID from the session or login details)
+        Optional<Instructor> instructor = instructorRepository.findById(projectControllers.instructorId);
+        model.addAttribute("instructor", instructor);
+		return "instructor-profile";
+	}
+*/
+	@GetMapping("/instructorprofile")
+	public String showProfile(Model model) {
+	    // Fetch the logged-in user's details based on their ID (you might need to get the ID from the session or login details)
+	    Optional<Instructor> instructorOptional = instructorRepository.findById(projectControllers.instructorId);
 
-	    for (Score score : list) {
-	        ScoreDisplayDTO scoreDisplay = new ScoreDisplayDTO();
-	        scoreDisplay.setScoreId(score.getScoreID());
-	        Student student = studentRepo.findById(score.getStudent());
-
-	        if (student != null) {
-	            String studentName = student.getFirstName() + " " + student.getLastName();
-	            scoreDisplay.setStudentName(studentName);
-	        }
-
-	        Optional<Course> courseOptional = courseRepo.findById(score.getCourse());
-
-	        if (courseOptional.isPresent()) {
-	            Course course = courseOptional.get();
-	            scoreDisplay.setCourse(course.getCourseTitle());
-	            scoreDisplay.setCredits(course.getCredits());
-	        } else {
-	            // Handle the situation where the course is not present
-	            // For example:
-	            System.out.println("Course not found for the score.");
-	        }
-
-	        scoreDisplay.setDate(score.getDateOfExam());
-	        scoreList.add(scoreDisplay);
+	    if (instructorOptional.isPresent()) {
+	        Instructor instructor = instructorOptional.get();
+	        model.addAttribute("instructor", instructor);
+	        return "instructor-profile";
+	    } else {
+	        // Handle the case when the instructor is not found
+	        return "error"; // Create a separate Thymeleaf view for this scenario
 	    }
+	}
+/*	
+    @PostMapping("/deleteInstructor")
+    public String deleteAccount() {
+        // Fetch the user based on their ID
+        Optional<Instructor> user = instructorRepository.findById(projectControllers.instructorId);
 
-	    model.addAttribute("scores", scoreList);
-	    return new ModelAndView("instructor-scorelist");
+        // Delete the user account from the database
+//        instructorRepository.delete(user);
+        instructorRepository.deleteById(user);
+        return "home"; // Redirect to the home page after account deletion
+    }
+*/
+	@PostMapping("/deleteInstructor")
+	public String deleteAccount() {
+	    // Fetch the user based on their ID
+	    Optional<Instructor> instructorOptional = instructorRepository.findById(projectControllers.instructorId);
+
+	    if (instructorOptional.isPresent()) {
+	        // Get the actual Instructor object
+	        Instructor instructor = instructorOptional.get();
+	        
+	        // Delete the user account from the database
+	        instructorRepository.delete(instructor);
+	        return "home"; // Redirect to the home page after account deletion
+	    } else {
+	        // Handle the case when the instructor is not found
+	        return "error"; // Redirect to an error page
+	    }
 	}
 
 }

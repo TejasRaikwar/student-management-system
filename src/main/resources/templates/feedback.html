@@ -84,13 +84,16 @@
 	<nav class="navbar navbar-expand-lg navbar-light bg-primary ">
 		<div class="container-fluid">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item"><a class="nav-link active text-white fw-bold" aria-current="page" href="/">Home</a>
+				<li class="nav-item"><a class="nav-link active text-white fw-bold" aria-current="page">Home</a>
 				</li>
 			</ul>
 		</div>
 		<div class="d-flex flex-row-reverse bd-highlight">
-			<form action="/logout" method="get">
+			<form action="/" method="get">
 				<div class="logout-btn">Logout</div>
+			</form>
+			<form action="/studentprofile" method="get">
+				<div class="logout-btn">Profile</div>
 			</form>
 			<form action="/enrollcourse" method="get">
 				<button type="submit" class="logout-btn bt1" style="width: 110px;">Enroll Course</button>

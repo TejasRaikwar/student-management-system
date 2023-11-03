@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Student Profile</title>
+	<title>Instructor Profile</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<style>
@@ -47,30 +47,31 @@
 			</ul>
 		</div>
 		<div class="d-flex flex-row-reverse bd-highlight">
-			<a href="/logout">
+			<form action="/" method="get">
 				<div class="logout-btn">Logout</div>
-			</a>
-			<a href="/studentprofile">
+			</form>
+			<a href="/instructorprofile">
 				<div class="logout-btn">Profile</div>
 			</a>
-
-			<form action="/enrollcourse" method="get">
-				<button type="submit" class="logout-btn bt1" style="width: 110px;">Enroll Course</button>
+			<form action="/listscores" method="get">
+				<button type="submit" class="logout-btn bt1">Scores List</button>
 			</form>
-			<form action="/enrollments" method="get">
-				<button type="submit" class="logout-btn bt1">Enrollments</button>
+			<form action="/studentlist" method="get">
+				<button type="submit" class="logout-btn bt1" style="width: 110px;">List Students</button>
 			</form>
-			<form action="/feedbacks" method="get">
+			<form action="/instructor-feedbacks" method="get">
 				<button type="submit" class="logout-btn bt1">Feedbacks</button>
 			</form>
 		</div>
 	</nav>
+
 	<!-- Display other user details accordingly -->
-<p>First Name: <span th:text="${student?.firstName}">[First Name]</span></p>
-<p>Last Name: <span th:text="${student?.lastName}">[Last Name]</span></p>
+	<p>First Name: <span th:text="${instructor.firstName}">[First Name]</span></p>
+	<p>Last Name: <span th:text="${instructor.lastName}">[Last Name]</span></p>
+
 
 	<!-- Form for updating profile -->
-	<form action="/updateProfile" method="post" th:object="${student}">
+	<form action="/updateProfile" method="post" th:object="${instructor}">
 		<!-- Include input fields to edit user details -->
 		<input type="text" th:field="*{firstName}" />
 		<!-- Add other input fields accordingly -->
@@ -78,7 +79,7 @@
 	</form>
 
 	<!-- Form for deleting account -->
-	<form action="/deleteAccount" method="post">
+	<form action="/deleteInstructor" method="post">
 		<button type="submit" onclick="return confirm('Are you sure you want to delete your account?')">Delete
 			Account</button>
 	</form>

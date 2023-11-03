@@ -6,61 +6,61 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Score")
 public class Score {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ScoreID")
-    private int scoreID;
-    
-    private int student;
-    
-    private int course;
-    
-    @Column(name = "DateOfExam")
-    @Temporal(TemporalType.DATE)
-    private String dateOfExam;
-    
-    @Column(name = "CreditObtained", precision = 5, scale = 2)
-    private BigDecimal creditObtained;
-    
-    // Getters and setters
-	public int getScoreID() {
-		return scoreID;
-	}
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    @Column(name = "ScoreID")
+	    private int scoreID;
+	    
+	    private int student;
+	    
+	    private int course;
+	    
+	    @Column(name = "DateOfExam")
+	    @Temporal(TemporalType.DATE)
+	    private String dateOfExam;
+	    
+	    @Column(name = "CreditObtained", precision = 5, scale = 2)
+	    private BigDecimal creditObtained;
 
-	public void setScoreID(int scoreID) {
-		this.scoreID = scoreID;
-	}
+		public int getScoreID() {
+			return scoreID;
+		}
 
-	public int getStudent() {
-		return student;
-	}
+		public void setScoreID(int scoreID) {
+			this.scoreID = scoreID;
+		}
 
-	public void setStudent(int student) {
-		this.student = student;
-	}
+		public int getStudent() {
+			return student;
+		}
 
-	public int getCourse() {
-		return course;
-	}
+		public void setStudent(int student) {
+			this.student = student;
+		}
 
-	public void setCourse(int course) {
-		this.course = course;
-	}
+		public int getCourse() {
+			return course;
+		}
 
-	public String getDateOfExam() {
-		return dateOfExam;
-	}
+		public void setCourse(int course) {
+			this.course = course;
+		}
 
-	public void setDateOfExam(String dateOfExam) {
-		this.dateOfExam = dateOfExam;
-	}
+		public String getDateOfExam() {
+			return dateOfExam;
+		}
 
-	public BigDecimal getCreditObtained() {
-		return creditObtained;
-	}
+		public void setDateOfExam(String dateOfExam) {
+			this.dateOfExam = dateOfExam;
+		}
 
-	public void setCreditObtained(BigDecimal creditObtained) {
-		this.creditObtained = creditObtained;
-	}
+		public BigDecimal getCreditObtained() {
+			return creditObtained;
+		}
 
+		public void setCreditObtained(BigDecimal creditObtained) {
+			this.creditObtained = creditObtained;
+		}
+	    
+	    
 }

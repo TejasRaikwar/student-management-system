@@ -96,7 +96,7 @@ public class projectControllers {
 		model.addAttribute("loginModel", new LoginModel());
 		return "login";
 	}
-/*
+
 	// handler for login process
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute("loginModel") LoginModel loginModel, BindingResult bindingResult) {
@@ -129,7 +129,8 @@ public class projectControllers {
 			}
 		}
 	}
-	*/
+/*
+	
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute("loginModel") LoginModel loginModel, BindingResult bindingResult, Model model) {
 	    if (bindingResult.hasErrors()) {
@@ -160,10 +161,8 @@ public class projectControllers {
 	    model.addAttribute("error", "Invalid email or password.");
 	    return "login";
 	}
-
-
 	
-	
+*/
 	// End of Login
 	@GetMapping("/addcourse")
 	public String addCourse(Model model) {

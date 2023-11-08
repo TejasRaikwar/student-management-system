@@ -79,6 +79,10 @@
 		<h2 class="text-left my-4 text-center">Login</h2>
 		<!---              -->
 		<form th:action="@{/login}" method="post" th:object="${loginModel}" onsubmit="return validateForm()">
+			<!-- Place this div within your login form in the HTML file -->
+			<div th:if="${error}" class="alert alert-danger" role="alert">
+				<span th:text="${error}"></span>
+			</div>
 			<div class="mb-3">
 				<label for="role" class="form-label">Role</label>
 				<select class="form-select" id="role" style="width: 100%" th:field="*{role}">
@@ -87,7 +91,8 @@
 					<option value="instructor">Instructor</option>
 					<option value="admin">Admin</option>
 				</select>
-				<span th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger" id="roleError"></span>
+				<span th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger"
+					id="roleError"></span>
 			</div>
 			<div class="mb-3">
 				<label for="exampleInputEmail1" class="form-label">Email</label>
@@ -102,6 +107,7 @@
 			</div>
 			<input type="hidden" name="role" th:value="${loginModel.role}" />
 			<p class="text-center"><button type="submit" class="btn btn-primary" id="passwordError">Login</button></p>
+
 		</form>
 		<!---              -->
 	</div>

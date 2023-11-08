@@ -96,7 +96,7 @@ public class projectControllers {
 		model.addAttribute("loginModel", new LoginModel());
 		return "login";
 	}
-
+/*
 	// handler for login process
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute("loginModel") LoginModel loginModel, BindingResult bindingResult) {
@@ -129,7 +129,42 @@ public class projectControllers {
 			}
 		}
 	}
+	*/
+	@PostMapping("/login")
+	public String login(@Valid @ModelAttribute("loginModel") LoginModel loginModel, BindingResult bindingResult, Model model) {
+	    if (bindingResult.hasErrors()) {
+	        return "login"; // Return to the login page with validation errors
+	    }
+
+	    if ("student".equals(loginModel.getRole())) {
+	        Student dbUser = studentRepository.findByEmail(loginModel.getEmail());
+	        id = (dbUser != null) ? dbUser.getStudentID() : -1;
+	        if (dbUser != null && loginModel.getPassword().equals(dbUser.getPassword())) {
+	            return "userpage";
+	        }
+	    } else {
+	        Instructor dbUser = instructorRepository.findByEmail(loginModel.getEmail());
+	        instructorId = (dbUser != null) ? dbUser.getInstructorID() : -1;
+	        instructorService.setInstructorName((dbUser != null) ? dbUser.getFirstName() + " " + dbUser.getLastName() : "");
+	        instructorService.setInstructorId((dbUser != null) ? dbUser.getInstructorID() : -1);
+	        if (dbUser != null && loginModel.getPassword().equals(dbUser.getPassword())) {
+	            if ("ADMIN".equals(dbUser.getRole())) {
+	                return "adminpage";
+	            } else {
+	                return "instructorpage";
+	            }
+	        }
+	    }
+
+	    // If login fails, set an error message and return to the login page
+	    model.addAttribute("error", "Invalid email or password.");
+	    return "login";
+	}
+
+
 	
+	
+	// End of Login
 	@GetMapping("/addcourse")
 	public String addCourse(Model model) {
 		model.addAttribute("course", new Course());

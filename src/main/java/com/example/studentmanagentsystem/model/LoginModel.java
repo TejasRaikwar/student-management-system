@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Email;
 public class LoginModel {
 	
     @NotEmpty(message = "Email is required")
-    @Email(message = "Invalid email address")
+    @Email(message = "Invalid email address")   
 	private String email;
 	
     @NotEmpty(message = "Password is required")
